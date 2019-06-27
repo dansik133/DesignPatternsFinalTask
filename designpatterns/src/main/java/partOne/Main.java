@@ -4,17 +4,25 @@ import partOne.task10.composites.Window;
 import partOne.task10.leafs.ColorfulEdges;
 import partOne.task10.leafs.D3Lights;
 import partOne.task10.leafs.FlickeringBackground;
+import partOne.task11.GameManager;
 import partOne.task12.ComputerFactory;
 import partOne.task12.Computer;
 import partOne.task3.Car;
 import partOne.task3.CarFacade;
 import partOne.task3.CarImpl;
+import partOne.task4.MultiplyStrategy;
+import partOne.task4.SortStrategy;
+import partOne.task4.StatisticArray;
+import partOne.task4.StatisticIterator;
 import partOne.task5.*;
 import partOne.task6.FlyWeightNode;
 import partOne.task7.ChatRoom;
 import partOne.task7.User;
 import partOne.task8.PullUpsWorkout;
 import partOne.task8.SquatsWorkout;
+import partOne.task9.CarComponent;
+import partOne.task9.CarMakerFactoryBase;
+import partOne.task9.HybridMakerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +40,7 @@ public class Main {
     }
 
     public static int getTaskToRun() {
-        System.out.println("Choose task (3, 5, 6, 8, 10, 12): ");
+        System.out.println("Choose task (3, 4, 5, 6, 7, 8, 9, 10, 11, 12): ");
         return reader.nextInt();
     }
 
@@ -44,6 +52,33 @@ public class Main {
 
                 CarFacade carFacade = new CarFacade();
                 carFacade.showFuel();
+
+                return true;
+            }
+            case 4: {
+                StatisticArray statisticArray = new StatisticArray(new SortStrategy());
+                statisticArray.add(5);
+                statisticArray.add(3);
+                statisticArray.add(4);
+                statisticArray.add(12);
+                statisticArray.add(322);
+
+                System.out.println("Choose option: (1 to sort, 2 to double)");
+                int choice = reader.nextInt();
+
+                if(choice == 1) {
+                    statisticArray.setStrategy(new SortStrategy());
+                    statisticArray.handleStrategy();
+                } else if(choice  == 2) {
+                    statisticArray.setStrategy(new MultiplyStrategy());
+                    statisticArray.handleStrategy();
+                }
+
+                StatisticIterator iteratorArr = statisticArray.iterator();
+
+                while (iteratorArr.hasNext())
+                    System.out.print(iteratorArr.next() + ", ");
+                System.out.println();
 
                 return true;
             }
@@ -94,6 +129,23 @@ public class Main {
 
                 return true;
             }
+            case 9: {
+                CarMakerFactoryBase factory = new HybridMakerFactory();
+                List<CarComponent> result = new ArrayList<>();
+
+                result.add(factory.createCarEngine());
+                result.add(factory.createCarBattary());
+                result.add(factory.createCarBody());
+                result.add(factory.createCarCoolingSystem());
+                result.add(factory.createCarLights());
+                result.add(factory.createCarSeats());
+                result.add(factory.createCarWheels());
+
+                System.out.println("Hybrid car has : ");
+                result.forEach(System.out::println);
+
+                return true;
+            }
             case 10: {
                 Window window = new Window();
 
@@ -102,6 +154,11 @@ public class Main {
                 window.addChild(new FlickeringBackground());
 
                 window.printMe();
+
+                return true;
+            }
+            case 11: {
+                GameManager.play();
 
                 return true;
             }
